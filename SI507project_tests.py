@@ -1,5 +1,5 @@
 from artist_database import *
-
+import unittest
 #1 Test that the database has 5 columns
 
 #2 Test that the items in the image column of the database start with http://
@@ -30,12 +30,20 @@ from artist_database import *
 
 # WIP below
 
-# class TestArtist(unittest.TestCase):
-#     def get_data:
-#         self.assertEqual(access_page_data("https://www.moma.org/artists")
-#
-#     def tearDown(self):
-# 		self.file.close()
+class TestArtist(unittest.TestCase):
+    def get_data():
+        webpage = access_page_data("https://www.moma.org/artists")
+        assert(type(webpage) == 'str')
+
+    # def test_artistclass():
+    #     i = scraped_list_of_lists[1]
+    #     sample_artist = Artist(Nationality=i[1],Gender=i[2],Name=i[4], Description=i[6], Image_Source=i[7])
+    #     assert(sample_artist[0] == 'Q82840')
+    #     assert(sample_artist[1] == 'Finnish, Scandinavian')
+    #     assert(sample_artist[2] == 'Male')
+
+    # def tearDown(self):
+    #     self.file.close()
 
 # (Artist(Nationality=i[1],Gender=i[2],Name=i[4], Description=i[6], Image_Source=i[7]
 

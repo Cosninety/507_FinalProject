@@ -67,7 +67,8 @@ class Classification(db.Model):
 #     num_artists = len(artist_in)
     # return render_template('index.html', num_movies = num_movies)
 
-#
+
+
 data_list_1 = []
 tracker = []
 for i in scraped_list_of_lists:
@@ -80,7 +81,8 @@ for i in scraped_list_of_lists:
 for item in data_list_1:
     session.add(item)
     session.commit()
-#
+
+# print(scraped_list_of_lists[1])
 # print(data_list_1)
 
 data_list_2 = []

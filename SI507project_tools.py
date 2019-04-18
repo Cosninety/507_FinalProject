@@ -37,10 +37,16 @@ def access_page_data(url):
     if not data:
         data = requests.get(url).text
         PROGRAM_CACHE.set(url, data, expire_in_days= 14) #, expire_in_days=1
+
     return data
 
+
 artists_page = access_page_data(START_URL)
+
+print(type(artists_page))
+
 main_soup = BeautifulSoup(artists_page, "html.parser") #get page
+# print(main_soup)
 
 # list_items =  main_soup.find('div', class_ ='tile-container')
 list_items =  main_soup.find('div', class_ ='flex')
