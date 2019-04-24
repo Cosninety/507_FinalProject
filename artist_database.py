@@ -4,127 +4,150 @@ from artist_flask import*
 from sqlalchemy import Table, Column, ForeignKey, Integer, String, Float
 from sqlalchemy.orm import relationship
 
+from flask import Flask, render_template, session, redirect, url_for
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+app.debug = True
+app.use_reloader = True
+app.config['SECRET_KEY1'] = 'app security finalprojectpath1287534'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./moma_database.db' # TODO: decide what your new database name will be
+app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+from bs4 import BeautifulSoup
+from advanced_expiry_caching import Cache
 # from db import session , init_db
 
 db = SQLAlchemy(app) # For database use
 session = db.session # to make queries easy ??Where is this called??? session add and session commit
 
+
 # see hw5 for ChocolateBars database reference. appending json data to database
 #Project 3 for adding to Model database!!!!!!!!
-#to prevent duplicate additions Also check out the get_or_create_artist example in the Songs application example we saw, and the additional example in the Populating a database sample in Canvas > Pages > Additional Useful Resources -- you may find that useful. The get_or_create function idea will likely have exactly the effect you want.
-
-class Artist(db.Model):
-    __tablename__ = 'artist_Info'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    Name = db.Column(db.String(250))
-    Gender = db.Column(db.String(250))
-    Description = db.Column(db.String(250)) #
-    Image_Source = db.Column(db.String(250))
-    Nationality =  db.Column(db.String(250))
+#to prevent duplicate additions (see project3) Also check out the get_or_create_artist example in the Songs application example we saw, and the additional example in the Populating a database sample in Canvas > Pages > Additional Useful Resources -- you may find that useful. The get_or_create function idea will likely have exactly the effect you want.
+# See this for flask and sql alchemy https://github.com/si507-w19/Songs-App-Class-Example/blob/master/main_app.py
+#https://umich.instructure.com/courses/269178/pages/additional-useful-resources - TEST SQL OUTPUT !!!!
 
 class Classification(db.Model):
     __tablename__ = 'classification'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     Art_type = db.Column(db.String(250))
-    ##see hw 5 for foreign key relationship
-    Artist_Key = db.Column(db.Integer, db.ForeignKey('artist_Info.id')) # table name
-    artist_Info = relationship('Artist') # table name = class name
 
-# init_db() how to initiate??
-#
-# def get_or_create_artist(artist_name):
-#     artist = Arist.query.filter_by(Name=artist_name).first()
-#     if artist:
-#         return artist
-#     else:
-#         artist = Artist(Name=artist_name)
-#         session.add(artist)
-#         session.commit()
-#         return artist
-# init_db()
-##########
+class Artist(db.Model):
+    __tablename__ = 'artist_Info'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    Catalog_Num =  db.Column(db.Integer)
+    Name = db.Column(db.String(250))
+    Gender = db.Column(db.String(250))
+    Description = db.Column(db.String(250)) #
+    Image_Source = db.Column(db.String(250))
+    Nationality =  db.Column(db.String(250))
+    Classification_Key = db.Column(db.Integer, db.ForeignKey('classification.id')) # table name
+    classification = relationship("Classification") # table name = class name
 
-# @app.route('/<artist>/img/')
-# def art_image(artist):
-#     # image_path = image_extention
-#     # return render_template('index.html', artist_image = image_path)
-#     pass
-#
-# @app.route('/<artist>/blurb/')
-# def description(artist):
-#     pass
-#
-# @app.route('/<artist>/add/')
-# def add_artist(artist):
-#     pass
 
-#######
-# @app.route('/')
-# def index():
-#     # return 'test2'
-#     # return render_template('index.html')
+def populate_data(input):
+    data_list_2 = []
+    tracker = []
+    for j in input:
+        try:
+            type = Classification.query.filter_by(Art_type = j[3]).first() #does artist exist already?
+        except:
+            continue
+        if type:
+            return type
+        else:
+            try:
+                data_list_2.append(Classification(Art_type = j[3])  )
+                tracker.append(i)
+            except:
+                continue
+    for k in data_list_2:
+        session.add(k)
+        session.commit()
+
+    data_list_1 = [] # what is this??
+    for i in input:
+        try:
+            artist = Artist.query.filter_by(Name=i[4]).first() #does artist exist already?
+        except:
+            continue
+        if artist:
+            return artist
+        else:
+            try:
+                # query = session.query(Classification).filter(Classification.Art_type == i[3]).first() #example
+                #
+                # data_list_1.append(Artist(Catalog_Num = i[0], Nationality=i[1],Gender=i[2],Name=i[4], Description=i[6], Image_Source=i[7], Classification_Key = query.id #how to
+                # ))
+                data_list_1.append(Artist(Catalog_Num = i[0], Nationality=i[1],Gender=i[2],Name=i[4], Description=i[6], Image_Source=i[7], Classification_Key = session.query(Classification.id).filter(Classification.Art_type.like(i[3]))#how to
+                ))
+            except:
+                continue
+        for item in data_list_1:
+            session.add(item)
+            session.commit()
+
+
+    print('complete afterd')
+
+def get_or_create_artist(name, gender):
+    # artist = Artist.query.filter_by(Name=name).first()
+    # if artist:
+    #     return artist
+    # else:
+    artist = Artist(Name=name, Gender=gender)
+    session.add(artist)
+    session.commit()
+    return artist
+
+
+db.create_all()
+populate_data(scraped_list_of_lists)
+
+# artist_of_type = []
+# artists_in = Artist.query.all()
+# for i in artists_in:
+#     type1 = Classification.query.filter_by(id= i.Classification_Key).first()
+#     try:
+#         artist_of_type.append(type1.Art_type)
+#     except:
+#         continue
+# print(artist_of_type)
+
+
+# @app.route('/all_movies')
+# def see_all():
+#     all_movies = [] # Will be be tuple list of title, genre
+#     movies = Movie.query.all()
+#     for m in movies:
+#         director = Director.query.filter_by(id= m.director_id).first() # get just one director instance
+#         all_movies.append((m.title, director.name, m.genre)) # get list of movies with info to easily access
+#     return render_template('all_movies.html', all_movies_saved = all_movies)
+
+#
+# for i in artists_in:
+#     type = Classification.query.filter_by(id= i.Classification_Key).first()
+    # print(type)
+    # # type2 = Classification.query.filter_by(= i.Classification_Key).first()
+    # # print(type2)
+    #
+    # artist_of_type.append(type.Art_type)
+    # print(artists_of_type)
+    #
+
+
+# def datatest():
 #     artist_in = Artist.query.all()
-#     num_artists = len(artist_in)
-    # return render_template('index.html', num_movies = num_movies)
-
-
-
-data_list_1 = []
-tracker = []
-for i in scraped_list_of_lists:
-    try:
-        data_list_1.append(Artist(Nationality=i[1],Gender=i[2],Name=i[4], Description=i[6], Image_Source=i[7] ))
-        # data_list_1.append(Artist(Nationality=i[1],Gender=i[2], Name = i[4]) )
-        tracker.append(i)
-    except:
-        continue
-for item in data_list_1:
-    session.add(item)
-    session.commit()
-
-# print(scraped_list_of_lists[1])
-# print(data_list_1)
-
-data_list_2 = []
-for j in scraped_list_of_lists:
-    try:
-        if j in tracker:
-            data_list_2.append(Classification(Art_type = j[3] ) )
-    except:
-        continue
-for k in data_list_2:
-    session.add(k)
-    session.commit()
-
-print('complete')
-# print(data_list_2)
 #
+#     for i in artist_in:
+#         print(i.Name)
 #
+# datatest()
+# if __name__ == '__main__':
+#     # db.drop_all()
+#     db.create_all()
 #
-
-# #
-# @app.route('/')
-# def index():
-#     # return 'test2'
-#     # return render_template('index.html')
-#     movies_in = Movie.query.all()
-#     num_movies = len(movies_in)
-#     return render_template('index.html', num_movies = num_movies)
-#0
-# @app.route('/add/<name>/<gender>/<description>') ### Add distributor
-# def new_song(title, director, genre):
-#     if Artist.query.filter_by(name=name).first(): # if there is a movie by that title
-#         return "That movie already exists! Go back to the main app!"
-#     else:
-#         director = get_or_create_artist(director)
-#         movie = Movie(title=title, director_id= director.id, genre=genre) # director, not directors.. Activates the return statement in the Movie class
-#         session.add(movie)
-#         session.commit()
-#         return "New movie: {} by {}. Type the URL all_movies to see the whole list of movie in repo.".format(movie.title, director.name)
-
-
-if __name__ == '__main__':
-    # db.drop_all()
-    db.create_all()
-    # main_populate("artists_spread.csv")
-    # app.run()
+#     populate_data(scraped_list_of_lists)

@@ -1,0 +1,9 @@
+<div class="page-header">
+    <h1>You searched for artists of type: {{keyword}}</h1>
+    <h2>Here is a list this type of artist:</h2>
+
+{% for i in keyword_return %}
+  {{ i[0] }} is a  {{ i[1] }} <br>
+{% endfor %}
+
+</div>

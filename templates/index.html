@@ -1,9 +1,10 @@
 
 <div class="page-header">
-    <h1>Here is an image by the artist:</h1>
+  <h1>There are {{num_artists}} artists in the database! Here are their names:</h1>
+  <h2>Click here to see samples of their artwork</h2>
 </div>
 
-<body>
-    <h2> test </h2>
-    <img src="{{ artist_image }}" alt="No Image Exists For This Artists">
-</body>
+
+{% for i in collection %}
+  {{ i }}<br>
+{% endfor %}
