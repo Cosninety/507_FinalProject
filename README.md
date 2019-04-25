@@ -24,7 +24,7 @@ Note: I am using a Windows system, instruction may vary for Mac OS
 1. Once you are in the active index browser a popup alert will trigger saying "This is a Javascript Alert for Noah's project to confirm it's working!!!!" Click okay to close the alert.
 2. From the index page a user may click to one between 2 links to see samples images of the artist's work or to filter/search the database to based on type of art.
 3. When entering a search keyword in the search route, be sure to enter one of the listed options (Sculptor, Painter, Architect, Photographer)
-4. To add an artist to the database, click enter a route following the following syntax(see route 2). The name will appear at the bottom of the list on the index page : /add/<name>/<gender>
+4. To add an artist to the database, click enter a route following the following syntax(see route 2). The name will appear at the bottom of the list on the index page : /add/name/gender
 
 ## Routes in this application
 
@@ -32,7 +32,7 @@ Note: I am using a Windows system, instruction may vary for Mac OS
 
 -Route 1: /art_collection →   This page will show an images of the artwork in the database
 
--Route 2: /add/<name>/<gender> → This page will add an artist’s name to a list. If the user views the list of artists in the index page, the name will be added to the end of the list.  The route is intended to be a way for people to keep track of which artist’s work they’ve seen.
+-Route 2: /add/name/gender → This page will add an artist’s name to a list. If the user views the list of artists in the index page, the name will be added to the end of the list.  The route is intended to be a way for people to keep track of which artist’s work they’ve seen.
 
 -Route 3: /search   → This page contains a form. A user may type in one of the following types of artists types to return a list of that type of : Sculptor, Painter, Architect, Photographer
 
