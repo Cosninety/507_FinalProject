@@ -1,8 +1,9 @@
 <div class="page-header">
     <h1>Art Collection Page</h1>
+    <a href="{{ url_for('index')}}">CLICK HERE TO RETURN TO INDEX PAGE</a> <br>
+</div>
 
-
+<br>
 {% for i in image %}
 <img src= "{{i}}" alt="No Image for This Artist" />  <br>
 {% endfor %}
-</div>

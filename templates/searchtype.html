@@ -1,4 +1,7 @@
 <!-- Adapted from Zhen's lecture 26 file -->
+<a href="{{ url_for('index')}}">CLICK HERE TO RETURN TO INDEX PAGE</a> <br>
+
+
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -10,8 +13,8 @@
         <form action="http://localhost:5000/searchreturn" method="GET">
             <div class="form-group">
                 <label for="keyword">Keyword</label>
-                <input type="text" class="form-control" name="keyword" id="keyword" placeholder="Search for Artist Type">
-                <small id="keywordHelp" class="form-text text-muted">Search for Art Type.</small>
+                <input type="text" class="form-control" name="keyword" id="keyword" placeholder="Search Artist Based on TYPE of Artist. Type one of the options shown below into this search field. ">
+                <small id="keywordHelp" class="form-text text-muted">Sculptor, Painter, Architect, Architect, Photographer.</small>
             </div>
             <button type="submit" class="btn btn-primary">Search</button>
         </form>

@@ -1,10 +1,24 @@
+<!-- .<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+</head> -->
 
 <div class="page-header">
-  <h1>There are {{num_artists}} artists in the database! Here are their names:</h1>
-  <h2>Click here to see samples of their artwork</h2>
+  <h1 id ="title"> There are {{num_artists}} artists in the database! Here are their names:</h1>
+<a href="{{ url_for('art_image')}}">CLICK HERE TO SEE A SAMPLE OF THEIR ARTWORK</a> <br>
+<a href="{{ url_for('search')}}">CLICK HERE TO SEARCH DATABASE BASED ON ART TYPE</a> <br>
 </div>
 
+<!-- $("#title").text("Lab 2: Noah Garcia & Dojune Min Section 1") -->
 
+
+<div class="body">
+<br>
 {% for i in collection %}
   {{ i }}<br>
 {% endfor %}
+</div>
+
+<!-- Inclusion of JavaScript files in the application that affect a view in your Flask application in some way. (OK if it is minor, as long as it works.) -->

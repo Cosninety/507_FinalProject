@@ -50,7 +50,7 @@ def add_artist1(name, gender):
 
 # http://localhost:5000/search
 @app.route('/search')
-def before_search():
+def search():
     return render_template('searchtype.html')
 
 # http://localhost:5000/searchreturn

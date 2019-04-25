@@ -1,9 +1,9 @@
+<a href="{{ url_for('index')}}">CLICK HERE TO RETURN TO INDEX PAGE</a> <br>
 <div class="page-header">
-    <h1>Artist types</h1>
-
-{% for i in keyword_return %}
-  {{ i[0] }} is a   {{ i[1] }} <br>
-  <p>test</p>
-{% endfor %}
-
+    <h1>List of All Artist Types</h1>
 </div>
+
+<br>
+{% for i in keyword_return %}
+  {{ i[0] }} is a {{ i[1] }} <br>
+{% endfor %}
