@@ -88,18 +88,15 @@ def get_data(pages):
 
         scraped_list_of_lists.append(list)
 
-
-# print(list_of_lists)
 get_data(pages)
-print(len(scraped_list_of_lists))
-# print(scraped_list_of_lists[1][-1])
-# with open('artists_spread.csv', mode = 'w', encoding = 'utf-8' , newline='') as csvfile:
-#     fieldnames = ["Catalog Number","Nationality", "Sex", "Art_type", "Name", "Catalog Number2", "Description", "Image Source"]
-#     writer = csv.DictWriter(csvfile, fieldnames = fieldnames)
-#
-#     writer.writeheader()
-#     for i in scraped_list_of_lists:
-#         try:
-#             writer.writerow({'Catalog Number':i[0], "Nationality" :i[1] ,"Sex" :i[2],"Art_type" :i[-5], "Name" :i[-4],"Catalog Number2" :i[-3], "Description": i[-2] , "Image Source": i[-1] })
-#         except:
-#             continue
+
+with open('artists_spread.csv', mode = 'w', encoding = 'utf-8' , newline='') as csvfile:
+    fieldnames = ["Catalog Number","Nationality", "Sex", "Art_type", "Name", "Catalog Number2", "Description", "Image Source"]
+    writer = csv.DictWriter(csvfile, fieldnames = fieldnames)
+
+    writer.writeheader()
+    for i in scraped_list_of_lists:
+        try:
+            writer.writerow({'Catalog Number':i[0], "Nationality" :i[1] ,"Sex" :i[2],"Art_type" :i[-5], "Name" :i[-4],"Catalog Number2" :i[-3], "Description": i[-2] , "Image Source": i[-1] })
+        except:
+            continue

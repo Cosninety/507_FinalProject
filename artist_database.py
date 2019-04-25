@@ -78,10 +78,7 @@ def populate_data(input):
             return artist
         else:
             try:
-                # query = session.query(Classification).filter(Classification.Art_type == i[3]).first() #example
-                #
-                # data_list_1.append(Artist(Catalog_Num = i[0], Nationality=i[1],Gender=i[2],Name=i[4], Description=i[6], Image_Source=i[7], Classification_Key = query.id #how to
-                # ))
+
                 data_list_1.append(Artist(Catalog_Num = i[0], Nationality=i[1],Gender=i[2],Name=i[4], Description=i[6], Image_Source=i[7], Classification_Key = session.query(Classification.id).filter(Classification.Art_type.like(i[3]))#how to
                 ))
             except:
@@ -94,10 +91,7 @@ def populate_data(input):
     print('complete afterd')
 
 def get_or_create_artist(name, gender):
-    # artist = Artist.query.filter_by(Name=name).first()
-    # if artist:
-    #     return artist
-    # else:
+
     artist = Artist(Name=name, Gender=gender)
     session.add(artist)
     session.commit()
@@ -106,48 +100,3 @@ def get_or_create_artist(name, gender):
 
 db.create_all()
 populate_data(scraped_list_of_lists)
-
-# artist_of_type = []
-# artists_in = Artist.query.all()
-# for i in artists_in:
-#     type1 = Classification.query.filter_by(id= i.Classification_Key).first()
-#     try:
-#         artist_of_type.append(type1.Art_type)
-#     except:
-#         continue
-# print(artist_of_type)
-
-
-# @app.route('/all_movies')
-# def see_all():
-#     all_movies = [] # Will be be tuple list of title, genre
-#     movies = Movie.query.all()
-#     for m in movies:
-#         director = Director.query.filter_by(id= m.director_id).first() # get just one director instance
-#         all_movies.append((m.title, director.name, m.genre)) # get list of movies with info to easily access
-#     return render_template('all_movies.html', all_movies_saved = all_movies)
-
-#
-# for i in artists_in:
-#     type = Classification.query.filter_by(id= i.Classification_Key).first()
-    # print(type)
-    # # type2 = Classification.query.filter_by(= i.Classification_Key).first()
-    # # print(type2)
-    #
-    # artist_of_type.append(type.Art_type)
-    # print(artists_of_type)
-    #
-
-
-# def datatest():
-#     artist_in = Artist.query.all()
-#
-#     for i in artist_in:
-#         print(i.Name)
-#
-# datatest()
-# if __name__ == '__main__':
-#     # db.drop_all()
-#     db.create_all()
-#
-#     populate_data(scraped_list_of_lists)

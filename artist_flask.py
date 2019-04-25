@@ -1,7 +1,5 @@
 from artist_database import*
 from SI507project_tools import*
-import numpy as np
-import matplotlib.pyplot as plt
 
 import os
 from flask import Flask, request, render_template, session, redirect, url_for # tools that will make it easier to build on things
@@ -87,10 +85,8 @@ def all_type():
     return render_template('all_types.html', keyword_return = artist_of_type)
 
 
-
 if __name__ == '__main__':
-    # db.create_all()
-    # populate_data(scraped_list_of_lists)
+
     db.init_app(app)
     app.run()
     print('complete 3')
